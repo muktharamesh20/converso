@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Converso – Learn a Language</title>
+  <meta name="description" content="Custom lessons in any language, from any language. Converso adapts to your goals — not the other way around." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F9F8F5;
+      --dark: #0E2433;
+      --accent: #21598B;
+      --blue: #3898F3;
+      --red: #ED4756;
+      --orange: #FF8C3A;
+      --yellow: #F0BB00;
+      --divider: #E4E4E4;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 52px;
+      background: rgba(14, 36, 51, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-pro {
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.75);
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      color: var(--dark);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 100px;
+      letter-spacing: -0.1px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .nav-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100svh;
+      background: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 52px 80px;
+      position: relative;
+      overflow: hidden;
+      gap: 72px;
+    }
+
+    /* floating language words */
+    .float-word {
+      position: absolute;
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.07);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      animation: floatWord linear infinite;
+    }
+    @keyframes floatWord {
+      0%   { transform: translateY(0px) rotate(var(--rot)); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-80px) rotate(var(--rot)); opacity: 0; }
+    }
+
+    .hero-text {
+      max-width: 560px;
+      position: relative;
+      z-index: 2;
+    }
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--blue);
+      border-radius: 2px;
+    }
+    h1 {
+      font-size: clamp(44px, 6.5vw, 76px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -2.5px;
+      color: #fff;
+      margin-bottom: 28px;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--blue);
+    }
+    .hero-sub {
+      font-size: 18px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 44px;
+      max-width: 440px;
+    }
+    .hero-sub strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+    .appstore-btn {
+      display: inline-block;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .appstore-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+    .appstore-btn img { height: 52px; border-radius: 12px; display: block; }
+
+    /* ─── PHONE ─── */
+    .hero-phone {
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+      animation: float 5s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-18px); }
+    }
+    .phone {
+      width: 248px;
+      background: #0a1a26;
+      border-radius: 44px;
+      padding: 10px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.08),
+        0 48px 96px rgba(0,0,0,0.5),
+        0 16px 32px rgba(0,0,0,0.3);
+    }
+    .phone-inner {
+      background: var(--bg);
+      border-radius: 36px;
+      overflow: hidden;
+      height: 504px;
+      display: flex;
+      flex-direction: column;
+    }
+    .ph-status {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 20px 0;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .ph-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px 8px;
+    }
+    .ph-nav-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -0.3px;
+    }
+    .ph-pro {
+      font-size: 8px;
+      font-weight: 700;
+      background: var(--dark);
+      color: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 5px;
+    }
+    .ph-chips { display: flex; gap: 5px; }
+    .ph-chip {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .ph-chip.xp   { background: #EBF5FF; color: var(--blue); }
+    .ph-chip.fire { background: #FFF5EB; color: var(--orange); }
+    .ph-body { padding: 10px 14px; flex: 1; overflow: hidden; }
+    .ph-section-label {
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #9CA3AF;
+      margin-bottom: 8px;
+    }
+    .ph-hero-card {
+      background: var(--dark);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .ph-hero-card-eyebrow { font-size: 7px; font-weight: 600; color: rgba(255,255,255,0.45); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px; }
+    .ph-hero-card-title { font-size: 13px; font-weight: 800; color: #fff; letter-spacing: -0.3px; margin-bottom: 6px; }
+    .ph-progress-bar { height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 4px; }
+    .ph-progress-fill { height: 100%; width: 12%; background: var(--red); border-radius: 2px; }
+    .ph-hero-card-sub { font-size: 7px; color: rgba(255,255,255,0.4); }
+    .ph-row { display: flex; gap: 8px; margin-bottom: 8px; }
+    .ph-stat {
+      flex: 1;
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .ph-stat-val { font-size: 18px; font-weight: 800; color: var(--dark); letter-spacing: -0.5px; line-height: 1; }
+    .ph-stat-lbl { font-size: 7px; color: #9CA3AF; margin-top: 3px; }
+    .ph-items { display: flex; flex-direction: column; gap: 6px; }
+    .ph-item {
+      background: #fff;
+      border-radius: 10px;
+      padding: 9px 10px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .ph-item-icon {
+      width: 26px; height: 26px;
+      border-radius: 7px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .ph-item-name { font-size: 9px; font-weight: 700; color: var(--dark); }
+    .ph-item-desc { font-size: 7px; color: #9CA3AF; margin-top: 1px; }
+    .ph-notch {
+      position: absolute;
+      top: 10px; left: 50%;
+      transform: translateX(-50%);
+      width: 80px; height: 24px;
+      background: #0a1a26;
+      border-radius: 0 0 16px 16px;
+    }
+
+    /* ─── SECTION SHARED ─── */
+    .section-inner { max-width: 1080px; margin: 0 auto; }
+    .section-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      color: var(--dark);
+      margin-bottom: 14px;
+    }
+    .section-desc {
+      font-size: 17px;
+      line-height: 1.65;
+      color: #4A5568;
+      max-width: 460px;
+      margin-bottom: 60px;
+    }
+
+    /* ─── FEATURES ─── */
+    .features { padding: 110px 52px; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .fcard {
+      background: #fff;
+      border: 1px solid var(--divider);
+      border-radius: 24px;
+      padding: 36px 32px;
+      opacity: 0;
+      transform: translateY(28px);
+      transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+    }
+    .fcard.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fcard:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 48px rgba(14,36,51,0.09);
+      border-color: transparent;
+    }
+    .fcard-icon {
+      width: 50px; height: 50px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 22px;
+    }
+    .fcard h3 {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+    .fcard p {
+      font-size: 15px;
+      line-height: 1.65;
+      color: #4A5568;
+    }
+    .fcard-pill {
+      display: inline-block;
+      margin-top: 18px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 100px;
+      letter-spacing: 0.2px;
+    }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      padding: 110px 52px;
+      background: var(--dark);
+      text-align: center;
+    }
+    .cta-section .section-tag { color: var(--blue); }
+    .cta-section h2 { color: #fff; margin-bottom: 16px; }
+    .cta-section .section-desc { color: rgba(255,255,255,0.5); margin: 0 auto 44px; text-align: center; max-width: 400px; }
+    .cta-section strong { color: rgba(255,255,255,0.85); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #080f15;
+      padding: 32px 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-logo { font-size: 17px; font-weight: 800; color: rgba(255,255,255,0.6); letter-spacing: -0.3px; }
+    .footer-links { display: flex; gap: 24px; align-items: center; }
+    .footer-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.35);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.75); }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.2); }
+
+    /* ─── REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 860px) {
+      nav { padding: 16px 24px; }
+      .hero { flex-direction: column; padding: 100px 24px 64px; gap: 48px; text-align: center; }
+      .eyebrow { justify-content: center; }
+      .hero-sub { margin: 0 auto 44px; }
+      .hero-phone { order: -1; }
+      .features { padding: 80px 24px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .cta-section { padding: 80px 24px; }
+      footer { flex-direction: column; text-align: center; padding: 28px 24px; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Converso <span class="nav-pro">PRO</span></a>
+  <a href="https://apps.apple.com/us/app/converso-learn-a-language/id6759810153" class="nav-btn" target="_blank" rel="noopener">Download Free ↗</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <!-- floating words -->
+  <span class="float-word" style="left:8%;top:72%;--rot:-4deg;animation-duration:14s;animation-delay:0s;">Bonjour</span>
+  <span class="float-word" style="left:18%;top:55%;--rot:3deg;animation-duration:18s;animation-delay:2s;">こんにちは</span>
+  <span class="float-word" style="left:75%;top:65%;--rot:-2deg;animation-duration:16s;animation-delay:1s;">Hola</span>
+  <span class="float-word" style="left:62%;top:78%;--rot:5deg;animation-duration:20s;animation-delay:3s;">नमस्ते</span>
+  <span class="float-word" style="left:85%;top:50%;--rot:-3deg;animation-duration:13s;animation-delay:4s;">Ciao</span>
+  <span class="float-word" style="left:5%;top:40%;--rot:2deg;animation-duration:17s;animation-delay:5s;">مرحبا</span>
+  <span class="float-word" style="left:40%;top:80%;--rot:-5deg;animation-duration:15s;animation-delay:1.5s;">Привет</span>
+  <span class="float-word" style="left:88%;top:75%;--rot:3deg;animation-duration:19s;animation-delay:0.5s;">你好</span>
+  <span class="float-word" style="left:28%;top:25%;--rot:-2deg;animation-duration:22s;animation-delay:3.5s;">Olá</span>
+  <span class="float-word" style="left:70%;top:30%;--rot:4deg;animation-duration:16s;animation-delay:2.5s;">안녕하세요</span>
+  <span class="float-word" style="left:50%;top:20%;--rot:-3deg;animation-duration:18s;animation-delay:6s;">Guten Tag</span>
+  <span class="float-word" style="left:15%;top:85%;--rot:2deg;animation-duration:14s;animation-delay:7s;">Merhaba</span>
+
+  <div class="hero-text">
+    <div class="eyebrow">AI Language Learning</div>
+    <h1>Learn what<br /><em>you</em> need.<br />In any language.</h1>
+    <p class="hero-sub">
+      Stop following someone else's curriculum. Converso builds <strong>custom lessons around your goals</strong> — in any language, from any language.
+    </p>
+    <a href="https://apps.apple.com/us/app/converso-learn-a-language/id6759810153" class="appstore-btn" target="_blank" rel="noopener">
+      <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" />
+    </a>
+  </div>
+
+  <div class="hero-phone">
+    <div class="phone" style="position:relative;">
+      <div class="ph-notch"></div>
+      <div class="phone-inner">
+        <div class="ph-status"><span>9:41</span><span>●●●</span></div>
+        <div class="ph-nav">
+          <div><span class="ph-nav-title">Converso</span><span class="ph-pro">PRO</span></div>
+          <div class="ph-chips">
+            <div class="ph-chip xp">⚡ 7</div>
+            <div class="ph-chip fire">🔥 3</div>
+          </div>
+        </div>
+        <div class="ph-body">
+          <div class="ph-section-label">Next up</div>
+          <div class="ph-hero-card">
+            <div class="ph-hero-card-eyebrow">Continue working on</div>
+            <div class="ph-hero-card-title">Professional networking ter…</div>
+            <div class="ph-progress-bar"><div class="ph-progress-fill"></div></div>
+            <div class="ph-hero-card-sub">12% mastered · 28 words</div>
+          </div>
+          <div class="ph-row">
+            <div class="ph-stat">
+              <div class="ph-stat-val">22</div>
+              <div class="ph-stat-lbl">words mastered</div>
+            </div>
+            <div class="ph-stat">
+              <div class="ph-stat-val">3🔥</div>
+              <div class="ph-stat-lbl">day streak</div>
+            </div>
+          </div>
+          <div class="ph-section-label">Practice modes</div>
+          <div class="ph-items">
+            <div class="ph-item">
+              <div class="ph-item-icon" style="background:#EDE9FE;">🃏</div>
+              <div>
+                <div class="ph-item-name">Flashcards</div>
+                <div class="ph-item-desc">Swipe to master vocab</div>
+              </div>
+            </div>
+            <div class="ph-item">
+              <div class="ph-item-icon" style="background:#FEE2E2;">⚡</div>
+              <div>
+                <div class="ph-item-name">Quick Fire</div>
+                <div class="ph-item-desc">Tap the right translation</div>
+              </div>
+            </div>
+            <div class="ph-item">
+              <div class="ph-item-icon" style="background:#FEF9C3;">✏️</div>
+              <div>
+                <div class="ph-item-name">Fill in the Blank</div>
+                <div class="ph-item-desc">Complete the sentence</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-inner">
+    <div class="section-tag reveal">What makes Converso different</div>
+    <h2 class="reveal">Built for how you<br />actually learn.</h2>
+    <p class="section-desc reveal">Most apps teach you their vocab list. Converso teaches you yours.</p>
+
+    <div class="features-grid">
+
+      <div class="fcard">
+        <div class="fcard-icon" style="background:#EBF5FF;">📚</div>
+        <h3>Custom lessons</h3>
+        <p>Pick any topic — grocery shopping, job interviews, negotiating a raise. The AI builds a vocabulary collection just for that, instantly.</p>
+        <span class="fcard-pill" style="background:#EBF5FF;color:#21598B;">You choose what to learn</span>
+      </div>
+
+      <div class="fcard">
+        <div class="fcard-icon" style="background:#F0FDF4;">🌍</div>
+        <h3>Any language, any direction</h3>
+        <p>Learning French from Hindi? Japanese from Spanish? No English required. Converso supports any language pair — including lower-resourced ones.</p>
+        <span class="fcard-pill" style="background:#F0FDF4;color:#16a34a;">50+ languages</span>
+      </div>
+
+      <div class="fcard">
+        <div class="fcard-icon" style="background:#FEF9C3;">⚡</div>
+        <h3>Practice sessions that adapt</h3>
+        <p>Flashcards, Quick Fire, Fill in the Blank — every session is built around your collections and targets the words you struggle with most.</p>
+        <span class="fcard-pill" style="background:#FEF9C3;color:#92400E;">Spaced repetition built in</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-tag reveal">Free to download</div>
+  <h2 class="reveal">Start your first lesson<br />in 60 seconds.</h2>
+  <p class="section-desc reveal">No rigid curriculum. No one-size-fits-all path. Just <strong>your language, your goals</strong>, and practice that actually works.</p>
+  <a href="https://apps.apple.com/us/app/converso-learn-a-language/id6759810153" class="appstore-btn reveal" target="_blank" rel="noopener">
+    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" />
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Converso</div>
+  <div class="footer-links">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="https://forms.gle/KitsousnzVZVJj3q6" target="_blank" rel="noopener">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 Converso. All rights reserved.</div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // staggered feature cards
+  const cardIo = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.fcard').forEach((c, i) => {
+          setTimeout(() => c.classList.add('in'), i * 110);
+        });
+        cardIo.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  const grid = document.querySelector('.features-grid');
+  if (grid) cardIo.observe(grid);
+</script>
+</body>
+</html>
